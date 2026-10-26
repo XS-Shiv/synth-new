@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CaseCard from '../components/CaseCard.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { caseStudies, portfolioExtra } from '../data/site';
+
+const featured = caseStudies.slice(0, 2);
+const latest = [...caseStudies.slice(2), ...portfolioExtra];
+---
+<Base
+  title="Our Portfolio | Synthlane"
+  description="Digital transformation and innovation portfolio — proven results and real stories from work led by Synthlane's founders."
+>
+  <PageHero eyebrow="Proven Results, Real Stories" crumbs={[{ label: 'Our Portfolio' }]}
+    lede="Projects led by Synthlane’s founders at previous companies, before Synthlane.">
+    Digital Transformation and <em>Innovation</em> Portfolio
+  </PageHero>
+
+  <section class="feat section-pad">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Featured</p>
+      <div class="feat-grid">
+        {featured.map((c, i) => <div data-reveal><CaseCard item={c} index={i} class="feat-card" /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="latest section-pad">
+    <div class="wrap">
+      <div class="latest-head">
+        <h2 class="display h2" data-split>Our Latest <em>Works</em></h2>
+        <p class="lede" data-reveal>A portfolio spanning global enterprises and startups, each with measurable growth or streamlined operations.</p>
+      </div>
+      <div class="latest-grid">
+        {latest.map((c, i) => <div data-reveal><CaseCard item={c} index={i + 2} /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .feat { background: var(--ink); padding-bottom: 40px; }
+  .feat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-top: 28px; }
+  .latest { background: var(--ink); padding-top: 80px; }
+  .latest-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; margin-bottom: 56px; }
+  .latest-head .lede { max-width: 40ch; }
+  .latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .latest-grid > div:nth-child(3n + 2) { margin-top: 60px; margin-bottom: -60px; }
+  .latest-grid { padding-bottom: 60px; align-items: start; }
+  @media (max-width: 1000px) {
+    .latest-grid { grid-template-columns: 1fr 1fr; }
+    .latest-grid > div:nth-child(3n + 2) { margin: 0; }
+  }
+  @media (max-width: 680px) { .feat-grid, .latest-grid { grid-template-columns: 1fr; } }
+</style>

@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CaseCard from '../../components/CaseCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Faq from '../../components/Faq.astro';
+import { solutions, caseStudies, techStack, type Solution } from '../../data/site';
+
+export function getStaticPaths() {
+  return solutions.map((s) => ({ params: { slug: s.slug }, props: { s } }));
+}
+
+const { s } = Astro.props as { s: Solution };
+const idx = solutions.findIndex((x) => x.slug === s.slug);
+const next = solutions[(idx + 1) % solutions.length];
+const words = s.name.split(' ');
+const lastWord = words.pop();
+---
+<Base title={`${s.name} | Synthlane`} description={s.intro}>
+  <PageHero eyebrow={`Solution 0${idx + 1}`} lede={s.intro} cta="Book a Free Consultation"
+    crumbs={[{ label: 'Solutions' }, { label: s.short }]}>
+    {words.join(' ') + ' '}<em>{lastWord}</em>
+  </PageHero>
+
+  <section class="svc light section-pad">
+    <div class="wrap">
+      <div class="svc-head">
+        <p class="eyebrow" data-reveal>What we deliver</p>
+        <h2 class="display h2" data-split>Core <em>services</em></h2>
+      </div>
+      <div class="svc-grid">
+        {s.services.map((it, i) => (
+          <article class="svc-card" data-reveal data-tilt>
+            <span class="svc-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="display">{it.title}</h3>
+            <p>{it.body}</p>
+            <span class="svc-line" aria-hidden="true"></span>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="why2 section-pad">
+    <div class="wrap why2-grid">
+      <div>
+        <p class="eyebrow" data-reveal>Why choose Synthlane</p>
+        <h2 class="display h2" data-split>Why <em>Synthlane</em></h2>
+      </div>
+      <ul class="why2-list">
+        {s.why.map((w) => (
+          <li data-reveal><span class="tick" aria-hidden="true">✓</span>{w}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="proc light section-pad">
+    <div class="wrap">
+      <div class="svc-head">
+        <p class="eyebrow" data-reveal>Our process</p>
+        <h2 class="display h2" data-split>How we <em>work</em></h2>
+      </div>
+      <ol class="proc-list" data-steps>
+        <span class="proc-lane" aria-hidden="true"><span data-steps-fill="x"></span></span>
+        {s.process.map((p, i) => (
+          <li class="proc-step" data-reveal>
+            <span class="proc-dot">{i + 1}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="stack" data-reveal>
+        <span class="stack-label">Stack</span>
+        {techStack.map((t) => <span class="stack-chip">{t}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="past section-pad">
+    <div class="wrap">
+      <div class="past-head">
+        <h2 class="display h2" data-split>Work our <em>founders</em> have led</h2>
+        <a href="/our-portfolio" class="btn btn-ghost" data-magnetic>Full portfolio<span class="btn-dot">→</span></a>
+      </div>
+      <div class="past-grid">
+        {caseStudies.slice(0, 3).map((c, i) => <div data-reveal><CaseCard item={c} index={i} /></div>)}
+      </div>
+    </div>
+  </section>
+
+  <a href={`/solutions/${next.slug}`} class="next">
+    <span class="eyebrow">Next solution</span>
+    <span class="display next-name">{next.name}</span>
+    <span class="next-arrow" aria-hidden="true">→</span>
+  </a>
+
+  <CtaBand />
+  <Faq />
+</Base>
+
+<style>
+  .svc-head { display: grid; gap: 24px; margin-bottom: clamp(40px, 5vw, 72px); }
+  .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+  .svc-card { position: relative; padding: 32px; min-height: 280px; border-radius: 26px; background: #fbfaf7; border: 1px solid var(--line-light); display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+  .svc-n { font-family: var(--mono); font-size: 12px; color: var(--signal); }
+  .svc-card h3 { font-size: clamp(28px, 2.4vw, 38px); line-height: 1.02; margin-top: auto; }
+  .svc-card p { color: var(--muted-light); }
+  .svc-line { position: absolute; left: 0; bottom: 0; height: 4px; width: 100%; background: var(--signal); transform: scaleX(0); transform-origin: left; transition: transform 0.7s var(--ease); }
+  .svc-card:hover .svc-line { transform: scaleX(1); }
+
+  .why2 { background: var(--ink); }
+  .why2-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(40px, 6vw, 100px); align-items: start; }
+  .why2-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-dark); }
+  .why2-list li { display: flex; gap: 18px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--line-dark); font-size: clamp(18px, 1.6vw, 24px); }
+  .tick { flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--signal); color: var(--ink); font-size: 15px; }
+
+  .proc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; position: relative; }
+  .proc-lane { position: absolute; left: 0; right: 0; top: 23px; height: 2px; background: var(--line-light); }
+  .proc-lane span { position: absolute; inset: 0; background: var(--signal); transform-origin: left; }
+  .proc-step { position: relative; display: grid; gap: 12px; align-content: start; }
+  .proc-dot { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 14px; box-shadow: 0 0 0 8px var(--paper); margin-bottom: 14px; }
+  .proc-step h3 { font-size: 22px; font-weight: 560; letter-spacing: -0.01em; }
+  .proc-step p { color: var(--muted-light); }
+  .stack { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 72px; }
+  .stack-label { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted-light); margin-right: 8px; }
+  .stack-chip { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line-light); font-size: 14px; }
+
+  .past { background: var(--ink); }
+  .past-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; margin-bottom: 52px; }
+  .past-head .h2 { max-width: 14ch; }
+  .past-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .next { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 24px; padding: clamp(48px, 7vw, 100px) var(--gutter); background: var(--ink); border-top: 1px solid var(--line-dark); transition: background 0.6s var(--ease), color 0.6s; }
+  .next .eyebrow { grid-column: 1 / -1; }
+  .next-name { font-size: clamp(44px, 7vw, 120px); }
+  .next-arrow { font-size: clamp(40px, 6vw, 90px); transition: transform 0.6s var(--ease); }
+  .next:hover { background: var(--signal); color: var(--ink); }
+  .next:hover .eyebrow { color: var(--ink); }
+  .next:hover .next-arrow { transform: translateX(20px); }
+
+  @media (max-width: 960px) {
+    .why2-grid { grid-template-columns: 1fr; }
+    .proc-list { grid-template-columns: 1fr 1fr; row-gap: 48px; }
+    .proc-lane { display: none; }
+    .past-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) { .proc-list { grid-template-columns: 1fr; } }
+</style>

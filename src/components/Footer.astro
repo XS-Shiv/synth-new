@@ -1,0 +1,72 @@
+---
+import Logo from './Logo.astro';
+import { solutions, tagline, footerBlurb, CAREERS_URL, LINKEDIN_URL, BLOGS_URL, PRIVACY_URL } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-top">
+      <div class="ftr-brand">
+        <Logo />
+        <p class="ftr-tag display">{tagline}</p>
+        <p class="ftr-blurb">{footerBlurb}</p>
+      </div>
+      <div class="ftr-cols">
+        <div>
+          <p class="ftr-h">Synthlane</p>
+          <a href="/">Home</a>
+          <a href="/about-us">About Us</a>
+          <a href="/our-portfolio">Our Work</a>
+          <a href={PRIVACY_URL}>Privacy Policy</a>
+          <a href={BLOGS_URL}>Blogs</a>
+          <a href={CAREERS_URL} target="_blank" rel="noopener">Careers</a>
+          <a href={LINKEDIN_URL} target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div>
+          <p class="ftr-h">Solutions We Provide</p>
+          {solutions.map((s) => <a href={`/solutions/${s.slug}`}>{s.short}</a>)}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ftr-giant" aria-hidden="true" data-giant>
+    <span>Synthlane</span>
+  </div>
+  <div class="wrap ftr-bottom">
+    <p>© All rights reserved with Synthlane Technologies Pvt Ltd</p>
+    <p class="ftr-loc">Gurugram, India · {year}</p>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--ink); color: var(--paper); padding-top: clamp(80px, 10vw, 140px); overflow: hidden; border-top: 1px solid var(--line-dark); }
+  .ftr-top { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; }
+  .ftr-tag { font-size: clamp(32px, 3.6vw, 52px); margin: 28px 0 16px; max-width: 14ch; }
+  .ftr-blurb { color: var(--muted-dark); max-width: 42ch; }
+  .ftr-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .ftr-cols div { display: flex; flex-direction: column; gap: 10px; }
+  .ftr-h { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted-dark); margin-bottom: 8px; }
+  .ftr-cols a { width: fit-content; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.5s var(--ease), color 0.3s; }
+  .ftr-cols a:hover { background-size: 100% 1px; color: var(--signal); }
+  .ftr-giant {
+    font-family: var(--serif);
+    font-size: clamp(90px, 23.5vw, 380px);
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    text-align: center;
+    margin-top: clamp(60px, 9vw, 120px);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .ftr-giant span {
+    display: inline-block;
+    padding-bottom: 0.08em;
+    background: linear-gradient(180deg, var(--paper) 30%, rgba(239, 236, 230, 0.06));
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .ftr-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-top: 24px; padding-bottom: 28px; font-size: 14px; color: var(--muted-dark); border-top: 1px solid var(--line-dark); }
+  @media (max-width: 860px) {
+    .ftr-top { grid-template-columns: 1fr; }
+  }
+</style>

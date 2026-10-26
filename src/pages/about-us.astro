@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { about, faqs } from '../data/site';
+
+// About page FAQ uses the same questions, in the order the live page lists them.
+const order = [0, 1, 3, 2, 4];
+const aboutFaqs = order.map((i) => faqs[i]);
+---
+<Base
+  title="About Synthlane | White-label engineering partner"
+  description="Synthlane Technologies was founded in Gurugram, India, by a former Meta engineer. Senior-led engineering for agencies and cloud partners, delivered under their brand."
+>
+  <PageHero eyebrow="About Us" lede={about.body} crumbs={[{ label: 'About Us' }]}>
+    We are an engineering partner for agencies and cloud partners. <em>We build under your brand.</em>
+  </PageHero>
+
+  <section class="mv light section-pad">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Our Mission &amp; Vision</p>
+      <h2 class="display h2 mv-title" data-split>Our Mission <em>&amp;</em> Vision</h2>
+      <div class="mv-grid">
+        <article class="mv-card" data-reveal data-tilt>
+          <span class="mv-k">Mission</span>
+          <p class="display">{about.mission}</p>
+          <span class="mv-glyph" aria-hidden="true">→</span>
+        </article>
+        <article class="mv-card mv-dark" data-reveal data-tilt>
+          <span class="mv-k">Vision</span>
+          <p class="display">{about.vision}</p>
+          <span class="mv-glyph" aria-hidden="true">◎</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="values section-pad">
+    <div class="wrap">
+      <div class="values-head">
+        <p class="eyebrow" data-reveal>What we hold to</p>
+        <h2 class="display h2" data-split>Core <em>Values</em></h2>
+      </div>
+      <ol class="values-list">
+        {about.values.map((v, i) => (
+          <li class="value" data-reveal>
+            <span class="value-n display">0{i + 1}</span>
+            <h3 class="display">{v.title}</h3>
+            <p>{v.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <div class="weare" aria-label="We are Synthlane">
+    <div class="weare-track" aria-hidden="true">
+      {Array.from({ length: 2 }).map(() => (
+        <div class="weare-group">
+          <span>Built to work behind your brand</span><i>✦</i><span class="o">We are Synthlane</span><i>✦</i>
+          <span>Built to work behind your brand</span><i>✦</i><span class="o">We are Synthlane</span><i>✦</i>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <CtaBand />
+  <Faq items={aboutFaqs} />
+</Base>
+
+<style>
+  .mv-title { margin: 24px 0 clamp(40px, 5vw, 72px); }
+  .mv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .mv-card { position: relative; min-height: 380px; padding: clamp(28px, 3.5vw, 52px); border-radius: 30px; background: #fbfaf7; border: 1px solid var(--line-light); display: flex; flex-direction: column; justify-content: space-between; gap: 40px; overflow: hidden; }
+  .mv-card p { font-size: clamp(30px, 3vw, 46px); line-height: 1.08; max-width: 18ch; }
+  .mv-k { font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--signal); }
+  .mv-glyph { position: absolute; right: 30px; top: 22px; font-size: 40px; opacity: 0.3; }
+  .mv-dark { background: var(--ink); color: var(--paper); border-color: transparent; }
+  .mv-dark::after { content: ''; position: absolute; width: 360px; height: 360px; right: -120px; bottom: -160px; border-radius: 50%; background: radial-gradient(circle, rgba(255,90,31,.55), transparent 65%); filter: blur(10px); }
+  .values { background: var(--ink); }
+  .values-head { display: grid; gap: 24px; margin-bottom: clamp(48px, 6vw, 90px); }
+  .values-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line-dark); }
+  .value { padding: 40px 32px 48px 0; display: grid; gap: 18px; align-content: start; border-right: 1px solid var(--line-dark); }
+  .value + .value { padding-left: 32px; }
+  .value:last-child { border-right: 0; }
+  .value-n { font-size: 80px; line-height: 0.9; color: var(--signal); }
+  .value h3 { font-size: clamp(30px, 2.8vw, 42px); }
+  .value p { color: var(--muted-dark); max-width: 34ch; }
+  .weare { background: var(--signal); color: var(--ink); overflow: hidden; padding: 26px 0; }
+  .weare-track { display: flex; width: max-content; animation: wm 40s linear infinite; }
+  .weare-group { display: flex; align-items: center; gap: 32px; padding-right: 32px; }
+  .weare span { font-family: var(--serif); font-size: clamp(40px, 5vw, 76px); white-space: nowrap; }
+  .weare .o { font-style: italic; }
+  .weare i { font-style: normal; font-size: 24px; }
+  @keyframes wm { to { transform: translateX(-50%); } }
+  @media (max-width: 860px) {
+    .mv-grid, .values-list { grid-template-columns: 1fr; }
+    .value, .value + .value { padding: 32px 0; border-right: 0; border-bottom: 1px solid var(--line-dark); }
+  }
+</style>

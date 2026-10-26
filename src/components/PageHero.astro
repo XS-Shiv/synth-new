@@ -1,0 +1,45 @@
+---
+import { BOOK_URL } from '../data/site';
+interface Props { eyebrow: string; lede?: string; cta?: string; crumbs?: { label: string; href?: string }[] }
+const { eyebrow, lede, cta, crumbs = [] } = Astro.props;
+---
+<section class="phero" data-hero>
+  <canvas class="phero-canvas" data-lanes aria-hidden="true"></canvas>
+  <div class="phero-fade" aria-hidden="true"></div>
+  <div class="wrap phero-in" data-hero-content>
+    {crumbs.length > 0 && (
+      <nav class="crumbs" aria-label="Breadcrumb" data-hero-in>
+        <a href="/">Home</a>
+        {crumbs.map((c) => (<><span>/</span>{c.href ? <a href={c.href}>{c.label}</a> : <span class="cur">{c.label}</span>}</>))}
+      </nav>
+    )}
+    <p class="eyebrow" data-hero-in>{eyebrow}</p>
+    <h1 class="display phero-title" data-split data-split-now><slot /></h1>
+    {(lede || cta) && (
+      <div class="phero-foot">
+        {lede && <p class="phero-lede" data-hero-in>{lede}</p>}
+        {cta && (
+          <div data-hero-in>
+            <a href={BOOK_URL} class="btn" target="_blank" rel="noopener" data-magnetic>
+              {cta}
+              <span class="btn-dot"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 12L12 2M5 2h7v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+            </a>
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .phero { position: relative; min-height: 86svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--ink); }
+  .phero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.85; }
+  .phero-fade { position: absolute; inset: 0; background: linear-gradient(90deg, var(--ink) 10%, rgba(10,11,13,.4) 60%, transparent), linear-gradient(0deg, var(--ink), transparent 50%); }
+  .phero-in { position: relative; z-index: 2; padding-top: 150px; padding-bottom: clamp(56px, 7vw, 96px); display: grid; gap: 28px; }
+  .crumbs { display: flex; gap: 10px; font-family: var(--mono); font-size: 12px; color: var(--muted-dark); }
+  .crumbs a:hover { color: var(--signal); }
+  .crumbs .cur { color: var(--paper); }
+  .phero-title { font-size: clamp(46px, 7.2vw, 124px); max-width: 16ch; }
+  .phero-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; padding-top: 26px; border-top: 1px solid var(--line-dark); }
+  .phero-lede { font-size: clamp(18px, 1.5vw, 22px); max-width: 52ch; color: rgba(239, 236, 230, 0.82); }
+</style>
