@@ -1,44 +1,27 @@
 ---
+import Arrow from './Arrow.astro';
 import { cta, BOOK_URL } from '../data/site';
 ---
-<section class="cta" data-cta>
-  <div class="cta-lanes" aria-hidden="true">
-    {Array.from({ length: 9 }).map((_, i) => <span style={`--i:${i}`}></span>)}
-  </div>
-  <div class="wrap cta-in">
-    <h2 class="display cta-title" data-split>Have a project that needs <em>more hands?</em></h2>
-    <p class="lede cta-sub" data-reveal>{cta.sub}</p>
-    <div data-reveal>
-      <a href={BOOK_URL} class="btn cta-btn" target="_blank" rel="noopener" data-magnetic>
-        Book a discovery call
-        <span class="btn-dot"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 12L12 2M5 2h7v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-      </a>
+<section class="section cta-wrap">
+  <div class="wrap">
+    <div class="cta" data-reveal>
+      <div>
+        <h2 class="h2">{cta.title}</h2>
+        <p class="lead">{cta.sub}</p>
+      </div>
+      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta { position: relative; overflow: hidden; padding: clamp(120px, 16vw, 240px) 0; background: var(--ink-2); text-align: center; }
-  .cta-in { position: relative; display: grid; justify-items: center; gap: 28px; }
-  .cta-title { font-size: clamp(48px, 8.6vw, 150px); max-width: 13ch; }
-  .cta-sub { margin: 0 auto; text-align: center; }
-  .cta-btn { --h: 64px; font-size: 18px; padding-left: 32px; }
-  .cta-btn .btn-dot { width: 48px; height: 48px; }
-  .cta-lanes { position: absolute; inset: 0; display: flex; justify-content: space-between; padding: 0 6vw; perspective: 600px; }
-  .cta-lanes span {
-    position: relative;
-    width: 1px; height: 100%;
-    background: var(--line-dark);
-    overflow: hidden;
+  .cta-wrap { padding-top: 0; }
+  .cta {
+    display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap;
+    padding: clamp(36px, 5vw, 64px);
+    border-radius: 20px;
+    background: linear-gradient(120deg, var(--bg-tint), #f8fbff 60%, var(--blue-soft));
+    border: 1px solid #d6e2f5;
   }
-  .cta-lanes span::after {
-    content: '';
-    position: absolute; left: -1px; width: 3px; height: 26%;
-    background: linear-gradient(180deg, transparent, var(--signal) 70%, #ffd2bf);
-    box-shadow: 0 0 12px var(--signal);
-    animation: lane calc(3s + var(--i) * 0.45s) linear infinite;
-    animation-delay: calc(var(--i) * -0.7s);
-    opacity: 0.8;
-  }
-  @keyframes lane { from { top: -25%; } to { top: 110%; } }
+  .cta .lead { margin-top: 10px; }
 </style>

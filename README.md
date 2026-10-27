@@ -1,19 +1,17 @@
 # Synthlane — website redesign
 
-A redesign of [synthlane.com](https://synthlane.com) built with **Astro**, **GSAP (ScrollTrigger)** and **Lenis** smooth scrolling. Same content, page structure and navigation as the live site; new visuals, motion and flow.
+A light, simple redesign of [synthlane.com](https://synthlane.com), built with **Astro**. The audience is senior management at companies, PSUs and government institutions, so the design is calm and readable: white and soft-grey sections, navy and blue accents, one clean sans-serif typeface, and only gentle motion (sections fade in, a slow animated grid behind each hero). Motion is switched off for visitors who set reduced motion.
 
-## What's inside
+Content, page structure and navigation follow the live site.
 
-| Route | Content |
+| Route | Sections |
 | --- | --- |
-| `/` | Animated "synth lanes" canvas hero, capability marquee, How white-label works (sticky stacked steps), What we build, Google Cloud & AI (orbit visual), Why Us (brand-peel card), Work our founders have led (pinned horizontal scroll), CTA, FAQ |
-| `/about-us` | Hero, Mission & Vision, Core Values, "We are Synthlane" band, CTA, FAQ |
-| `/our-portfolio` | Featured and latest work (9 projects) |
-| `/solutions/*` | Software Development, Application Modernization, Software Consulting, Secure Cloud Engineering, AI & ML — services, why Synthlane, process, past work |
+| `/` | Hero, How white-label works, What we build, Google Cloud & AI, Why Us, Work our founders have led, CTA, FAQ |
+| `/about-us` | Hero, Our Mission & Vision, Core Values, "Built to work behind your brand / We are Synthlane", FAQ |
+| `/our-portfolio` | Work our founders have led (Zomato, Siemens), Projects (7 more) |
+| `/solutions/*` | Software Development, Application Modernization, Software Consulting, Secure Cloud Engineering, AI & ML — core services, why Synthlane, founders' work, tech stack, step-by-step approach, FAQ |
 
-Blogs, Privacy Policy, Careers and LinkedIn link to the existing live URLs. Every "Book a discovery call" button goes to the same cal.com link as the live site.
-
-**Motion:** split-word headline reveals, scroll-scrubbed parallax, magnetic buttons, card tilt, custom cursor, page transitions via Astro's `ClientRouter`. Everything respects `prefers-reduced-motion`. No images are loaded — all visuals are canvas, SVG and CSS.
+Blogs, Privacy Policy, Careers and LinkedIn link to the existing live URLs. "Book a discovery call", "Book a Free Consultation" and "Let's Connect" go to the same cal.com link as the live site.
 
 ## Run it
 
@@ -23,12 +21,21 @@ npm run dev      # http://localhost:4321
 npm run build    # static output in dist/
 ```
 
-Deploys as a static site to Vercel, Netlify, Cloudflare Pages or GitHub Pages with no config.
+Deploys as a static site to Vercel, Netlify, Cloudflare Pages or GitHub Pages with no config. All copy is in `src/data/site.ts`.
+
+## Logos
+
+`public/logos/` holds the logo files:
+
+- **Clients:** Zomato, Siemens, Byju's (used for Toppr (Byju's)) — from [Simple Icons](https://simpleicons.org), in each brand's colour.
+- **Tech stack:** Node.js, C++, .NET, React, Python, Java — from the Iconify `logos` set.
+
+AlgoMage, Authlayer, Vinyo, BidYourStay, Qumulo and the AI-Powered Sales Calling Platform show their name as text, because no logo file was available. To add one, drop an SVG or PNG in `public/logos/` and set `logo: '/logos/<file>'` on that entry in `src/data/site.ts`.
 
 ## Before going live
 
-- **Logo** — the original logo file couldn't be downloaded from Framer's CDN during the build, so `src/components/Logo.astro` uses a placeholder mark with the "Synthlane" wordmark. Drop the real file at `public/logo.svg` and set `USE_FILE = true` in that component.
-- **FAQ answers** — the live site's answers are collapsed and weren't scrapable. The answers in `src/data/site.ts` are written only from statements made elsewhere on the site. Confirm them with the Synthlane team.
-- **Solutions pages** — card titles, services and process steps match the live pages; the short descriptions under each item are condensed.
-
-All copy lives in `src/data/site.ts`.
+- **Synthlane logo:** `src/components/Logo.astro` uses a placeholder mark next to the "Synthlane" wordmark. Put the real logo at `public/logo.svg` and set `USE_FILE = true`.
+- **Solutions page descriptions:** headings, card titles, step names and FAQ questions match the live pages exactly. The one-line descriptions under them (marked `// ~` in `site.ts`) are close paraphrases — paste the exact copy from the Framer project over them.
+- **FAQ answers:** the live site doesn't publish answer text in its pages. The answers here (marked `// answer:`) use only facts stated elsewhere on the site. Replace them with Synthlane's own.
+- **AI & ML FAQ:** left out. On the live page, four of its five questions are a copy error ("What are digital forensics services?").
+- **"Read Detailed Case Study":** the live buttons don't link anywhere. Here they go to the portfolio page; point them at case-study pages once those exist.

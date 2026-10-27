@@ -1,5 +1,4 @@
 ---
-import { ClientRouter } from 'astro:transitions';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
@@ -20,18 +19,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#0a0b0d" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>document.documentElement.classList.add('js');</script>
-    <ClientRouter />
   </head>
   <body>
     <Header />
-    <main transition:animate="fade">
-      <slot />
-    </main>
+    <main><slot /></main>
     <Footer />
-    <div class="grain" aria-hidden="true"></div>
     <script>
       import '../scripts/app.ts';
     </script>

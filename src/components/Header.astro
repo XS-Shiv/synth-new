@@ -1,139 +1,85 @@
 ---
 import Logo from './Logo.astro';
 import { solutions, BOOK_URL, CAREERS_URL, BLOGS_URL } from '../data/site';
-const path = Astro.url.pathname;
-const is = (p: string) => (path === p || path.startsWith(p + '/') ? 'is-active' : '');
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const active = (p: string) => (path === p || path.startsWith(p + '/') ? 'is-active' : '');
 ---
 <header class="hdr" data-header>
-  <div class="hdr-in">
+  <div class="wrap hdr-in">
     <Logo />
     <nav class="nav" aria-label="Main">
       <div class="drop">
-        <button class={`nav-link ${is('/solutions')}`} aria-haspopup="true" aria-expanded="false" data-drop-btn>
+        <button class={`nav-link ${active('/solutions')}`} aria-haspopup="true" aria-expanded="false" data-drop-btn>
           Solutions
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         </button>
         <div class="drop-panel" data-drop-panel>
-          {solutions.map((s, i) => (
-            <a href={`/solutions/${s.slug}`} class="drop-item">
-              <span class="drop-n">0{i + 1}</span>
-              <span class="drop-t">{s.name}</span>
-              <span class="drop-d">{s.card}</span>
-            </a>
-          ))}
+          {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="drop-item">{s.title}</a>)}
         </div>
       </div>
-      <a href="/our-portfolio" class={`nav-link ${is('/our-portfolio')}`}>Our Portfolio</a>
+      <a href="/our-portfolio" class={`nav-link ${active('/our-portfolio')}`}>Our Portfolio</a>
       <a href={BLOGS_URL} class="nav-link">Blogs</a>
-      <a href="/about-us" class={`nav-link ${is('/about-us')}`}>About Us</a>
+      <a href="/about-us" class={`nav-link ${active('/about-us')}`}>About Us</a>
       <a href={CAREERS_URL} class="nav-link" target="_blank" rel="noopener">Careers</a>
     </nav>
-    <a href={BOOK_URL} class="btn hdr-cta" target="_blank" rel="noopener" data-magnetic>
-      Let’s Connect
-      <span class="btn-dot"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 12L12 2M5 2h7v7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-    </a>
-    <button class="burger" aria-label="Open menu" aria-expanded="false" data-burger><span></span><span></span></button>
+    <a href={BOOK_URL} class="btn btn-sm hdr-cta" target="_blank" rel="noopener">Let’s Connect</a>
+    <button class="burger" aria-label="Menu" aria-expanded="false" data-burger><span></span><span></span><span></span></button>
   </div>
 
   <div class="mnav" data-mnav>
-    <div class="mnav-in">
-      <p class="eyebrow">Solutions</p>
-      {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="mnav-sub">{s.name}</a>)}
-      <div class="mnav-main">
-        <a href="/">Home</a>
-        <a href="/our-portfolio">Our Portfolio</a>
-        <a href="/about-us">About Us</a>
-        <a href={BLOGS_URL}>Blogs</a>
-        <a href={CAREERS_URL} target="_blank" rel="noopener">Careers</a>
-      </div>
-      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Let’s Connect<span class="btn-dot">→</span></a>
+    <div class="wrap">
+      <p class="mnav-h">Solutions</p>
+      {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="mnav-sub">{s.title}</a>)}
+      <hr />
+      <a href="/our-portfolio">Our Portfolio</a>
+      <a href={BLOGS_URL}>Blogs</a>
+      <a href="/about-us">About Us</a>
+      <a href={CAREERS_URL} target="_blank" rel="noopener">Careers</a>
+      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Let’s Connect</a>
     </div>
   </div>
 </header>
 
 <style>
-  .hdr {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 50;
-    padding: 14px var(--gutter);
-    transition: transform 0.6s var(--ease);
-  }
-  .hdr.is-hidden { transform: translateY(-110%); }
-  .hdr-in {
-    max-width: var(--max);
-    margin: 0 auto;
-    display: flex; align-items: center; gap: 24px;
-    padding: 8px 8px 8px 20px;
-    border-radius: 999px;
-    background: rgba(10, 11, 13, 0.55);
-    backdrop-filter: blur(16px) saturate(1.4);
-    -webkit-backdrop-filter: blur(16px) saturate(1.4);
-    border: 1px solid var(--line-dark);
-    color: var(--paper);
-  }
-  .nav { display: flex; gap: 4px; margin-left: auto; }
-  .nav-link {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    font-size: 15px;
-    color: rgba(239, 236, 230, 0.78);
-    transition: color 0.3s, background 0.3s;
-  }
-  .nav-link:hover, .nav-link.is-active { color: var(--paper); background: rgba(239, 236, 230, 0.08); }
-  .hdr-cta { --h: 46px; font-size: 15px; padding-left: 20px; }
-  .hdr-cta .btn-dot { width: 32px; height: 32px; }
-
+  .hdr { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
+  .hdr.is-scrolled { border-color: var(--line); box-shadow: 0 4px 16px -12px rgba(15, 27, 45, 0.25); }
+  .hdr-in { display: flex; align-items: center; gap: 24px; height: 72px; }
+  .nav { display: flex; gap: 2px; margin-left: auto; }
+  .nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 0.2s, background 0.2s; }
+  .nav-link:hover, .nav-link.is-active { color: var(--navy); background: var(--bg-soft); }
   .drop { position: relative; }
   .drop-panel {
-    position: absolute; top: calc(100% + 14px); left: -20px;
-    width: 560px;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
-    padding: 10px;
-    border-radius: 22px;
-    background: rgba(18, 20, 24, 0.96);
-    border: 1px solid var(--line-dark);
-    backdrop-filter: blur(20px);
-    opacity: 0; visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease), visibility 0.35s;
+    position: absolute; top: calc(100% + 8px); left: 0; min-width: 300px;
+    padding: 8px; border-radius: 12px; background: #fff; border: 1px solid var(--line);
+    box-shadow: 0 16px 40px -16px rgba(15, 27, 45, 0.25);
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
   }
-  .drop:hover .drop-panel, .drop-panel.is-open { opacity: 1; visibility: visible; transform: none; }
-  .drop-item {
-    display: grid; grid-template-columns: auto 1fr; column-gap: 12px;
-    padding: 14px; border-radius: 14px;
-    transition: background 0.3s;
-  }
-  .drop-item:hover { background: rgba(239, 236, 230, 0.06); }
-  .drop-n { grid-row: span 2; font-family: var(--mono); font-size: 11px; color: var(--signal); padding-top: 3px; }
-  .drop-t { font-weight: 560; font-size: 15px; }
-  .drop-d { font-size: 13px; color: var(--muted-dark); line-height: 1.4; }
+  .drop:hover .drop-panel, .drop:focus-within .drop-panel, .drop-panel.is-open { opacity: 1; visibility: visible; transform: none; }
+  .drop-item { display: block; padding: 10px 12px; border-radius: 8px; font-size: 15px; }
+  .drop-item:hover { background: var(--bg-tint); color: var(--navy); }
 
-  .burger { display: none; width: 46px; height: 46px; border-radius: 50%; background: var(--paper); position: relative; margin-left: auto; }
-  .burger span { position: absolute; left: 14px; right: 14px; height: 1.6px; background: var(--ink); transition: transform 0.4s var(--ease); }
-  .burger span:first-child { top: 19px; }
-  .burger span:last-child { top: 26px; }
-  .burger[aria-expanded='true'] span:first-child { transform: translateY(3.5px) rotate(45deg); }
-  .burger[aria-expanded='true'] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .burger { display: none; margin-left: auto; width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); position: relative; }
+  .burger span { position: absolute; left: 12px; right: 12px; height: 1.6px; background: var(--navy); transition: transform 0.25s, opacity 0.25s; }
+  .burger span:nth-child(1) { top: 15px; }
+  .burger span:nth-child(2) { top: 21px; }
+  .burger span:nth-child(3) { top: 27px; }
+  .burger[aria-expanded='true'] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+  .burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
-  .mnav {
-    position: fixed; inset: 0;
-    z-index: -1;
-    background: var(--ink);
-    clip-path: circle(0% at calc(100% - 40px) 40px);
-    transition: clip-path 0.8s var(--ease);
-    overflow-y: auto;
-  }
-  .mnav.is-open { clip-path: circle(150% at calc(100% - 40px) 40px); }
-  .mnav-in { padding: 110px var(--gutter) 48px; display: flex; flex-direction: column; gap: 10px; }
-  .mnav-sub { color: var(--muted-dark); font-size: 17px; }
-  .mnav-main { display: flex; flex-direction: column; margin: 28px 0; }
-  .mnav-main a { font-family: var(--serif); font-size: 46px; line-height: 1.15; }
-  .mnav .btn { align-self: flex-start; }
+  .mnav { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: #fff; overflow-y: auto; padding: 16px 0 40px; border-top: 1px solid var(--line); }
+  .mnav.is-open { display: block; }
+  .mnav .wrap { display: flex; flex-direction: column; gap: 4px; }
+  .mnav a:not(.btn) { padding: 10px 0; font-size: 18px; font-weight: 500; }
+  .mnav .mnav-sub { font-size: 16px !important; color: var(--muted); padding: 7px 0 !important; }
+  .mnav-h { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
+  .mnav hr { border: 0; border-top: 1px solid var(--line); width: 100%; margin: 12px 0; }
+  .mnav .btn { margin-top: 16px; justify-content: center; }
 
-  @media (max-width: 980px) {
+  @media (max-width: 960px) {
     .nav, .hdr-cta { display: none; }
     .burger { display: block; }
-    .hdr-in { padding: 6px 6px 6px 18px; }
+    .hdr-in { height: 72px; }
   }
 </style>

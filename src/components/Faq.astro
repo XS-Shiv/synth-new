@@ -1,58 +1,43 @@
 ---
-import { faqs, faqIntro } from '../data/site';
-interface Props { items?: { q: string; a: string }[]; light?: boolean }
-const { items = faqs, light = true } = Astro.props;
+import type { Faq } from '../data/site';
+interface Props { items: Faq[]; intro?: string }
+const { items, intro } = Astro.props;
 ---
-<section class={`faq section-pad ${light ? 'light' : ''}`}>
-  <div class="wrap faq-grid">
-    <div class="faq-head">
-      <p class="eyebrow" data-reveal>FAQ</p>
-      <h2 class="display h2" data-split>Frequently Asked <em>Questions</em></h2>
-      <p class="lede" data-reveal>{faqIntro}</p>
+{items.length > 0 && (
+  <section class="section faq">
+    <div class="wrap faq-grid">
+      <div class="faq-head" data-reveal>
+        <h2 class="h2">Frequently Asked Questions</h2>
+        {intro && <p class="lead">{intro}</p>}
+      </div>
+      <div class="faq-list" data-reveal>
+        {items.map((f, i) => (
+          <details class="faq-item">
+            <summary>
+              <span class="faq-q">{i + 1}. {f.q}</span>
+              <span class="faq-icon" aria-hidden="true"></span>
+            </summary>
+            <p class="faq-a">{f.a}</p>
+          </details>
+        ))}
+      </div>
     </div>
-    <div class="faq-list">
-      {items.map((f, i) => (
-        <details class="faq-item" data-reveal>
-          <summary>
-            <span class="faq-n">{String(i + 1).padStart(2, '0')}</span>
-            <span class="faq-q">{f.q}</span>
-            <span class="faq-plus" aria-hidden="true"></span>
-          </summary>
-          <div class="faq-a"><p>{f.a}</p></div>
-        </details>
-      ))}
-    </div>
-  </div>
-</section>
+  </section>
+)}
 
 <style>
-  .faq-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(40px, 6vw, 100px); align-items: start; }
-  .faq-head { position: sticky; top: 120px; display: grid; gap: 24px; }
-  .faq-head .h2 { font-size: clamp(42px, 5.4vw, 88px); }
-  .faq-item { border-top: 1px solid var(--line-light); }
-  .faq-item:last-child { border-bottom: 1px solid var(--line-light); }
-  summary {
-    list-style: none;
-    display: grid; grid-template-columns: 48px 1fr 28px; align-items: center;
-    padding: 28px 0;
-    cursor: pointer;
-  }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(32px, 5vw, 80px); align-items: start; }
+  .faq-head .lead { margin-top: 14px; }
+  .faq-list { border-top: 1px solid var(--line); }
+  .faq-item { border-bottom: 1px solid var(--line); }
+  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; cursor: pointer; }
   summary::-webkit-details-marker { display: none; }
-  .faq-n { font-family: var(--mono); font-size: 12px; color: var(--signal); }
-  .faq-q { font-size: clamp(19px, 1.7vw, 25px); font-weight: 480; letter-spacing: -0.01em; transition: transform 0.5s var(--ease); }
-  summary:hover .faq-q { transform: translateX(8px); }
-  .faq-plus { position: relative; width: 28px; height: 28px; border-radius: 50%; box-shadow: inset 0 0 0 1px currentColor; }
-  .faq-plus::before, .faq-plus::after { content: ''; position: absolute; left: 8px; right: 8px; top: 13.3px; height: 1.4px; background: currentColor; transition: transform 0.45s var(--ease); }
-  .faq-plus::after { transform: rotate(90deg); }
-  details[open] .faq-plus { background: var(--signal); box-shadow: none; color: var(--ink); }
-  details[open] .faq-plus::after { transform: rotate(0deg); }
-  .faq-a { padding: 0 28px 30px 48px; color: var(--muted-light); font-size: 17px; max-width: 60ch; }
-  details[open] .faq-a { animation: faqIn 0.6s var(--ease); }
-  @keyframes faqIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
-  @media (max-width: 860px) {
-    .faq-grid { grid-template-columns: 1fr; }
-    .faq-head { position: static; }
-    summary { grid-template-columns: 36px 1fr 28px; }
-    .faq-a { padding-left: 36px; padding-right: 0; }
-  }
+  .faq-q { font-size: 18px; font-weight: 560; }
+  summary:hover .faq-q { color: var(--blue); }
+  .faq-icon { position: relative; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--bg-tint); }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; left: 8px; right: 8px; top: 13.2px; height: 1.6px; background: var(--navy); transition: transform 0.25s; }
+  .faq-icon::after { transform: rotate(90deg); }
+  details[open] .faq-icon::after { transform: rotate(0); }
+  .faq-a { padding: 0 48px 22px 0; color: var(--muted); }
+  @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; } }
 </style>

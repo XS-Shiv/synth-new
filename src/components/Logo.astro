@@ -1,34 +1,25 @@
 ---
-// Placeholder mark + wordmark. The original Synthlane logo is an image served
-// from Framer's CDN, which this build environment could not download.
-// To use the real logo: drop it in /public/logo.svg and set USE_FILE = true.
+// Placeholder mark + "Synthlane" wordmark. The original logo file is on
+// Framer's CDN, which this build environment can't download from.
+// To use the real logo: put it at /public/logo.svg and set USE_FILE = true.
 const USE_FILE = false;
-interface Props { class?: string }
-const { class: cls = '' } = Astro.props;
 ---
-<a href="/" class={`logo ${cls}`} aria-label="Synthlane home">
+<a href="/" class="logo" aria-label="Synthlane home">
   {USE_FILE ? (
-    <img src="/logo.svg" alt="Synthlane" height="28" />
+    <img src="/logo.svg" alt="Synthlane" height="30" />
   ) : (
     <>
-      <svg class="mark" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
-        <path d="M4 26 L14 6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
-        <path d="M11 26 L18 12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" opacity=".55" />
-        <path d="M18 26 L28 6" stroke="var(--signal)" stroke-width="2.6" stroke-linecap="round" />
+      <svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">
+        <path d="M4 26 L14 6" stroke="var(--navy)" stroke-width="2.8" stroke-linecap="round" />
+        <path d="M11 26 L18 12" stroke="var(--navy)" stroke-width="2.8" stroke-linecap="round" opacity=".45" />
+        <path d="M18 26 L28 6" stroke="var(--blue)" stroke-width="2.8" stroke-linecap="round" />
       </svg>
-      <span class="word">Synthlane</span>
+      <span>Synthlane</span>
     </>
   )}
 </a>
 
 <style>
-  .logo { display: inline-flex; align-items: center; gap: 10px; }
-  .word {
-    font-family: var(--sans);
-    font-weight: 620;
-    font-size: 21px;
-    letter-spacing: -0.03em;
-  }
-  .mark { transition: transform 0.6s var(--ease); }
-  .logo:hover .mark { transform: skewX(-12deg); }
+  .logo { display: inline-flex; align-items: center; gap: 10px; color: var(--navy); }
+  span { font-weight: 660; font-size: 21px; letter-spacing: -0.03em; }
 </style>
