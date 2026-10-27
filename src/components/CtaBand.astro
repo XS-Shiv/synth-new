@@ -2,26 +2,28 @@
 import Arrow from './Arrow.astro';
 import { cta, BOOK_URL } from '../data/site';
 ---
-<section class="section cta-wrap">
+<section class="section">
   <div class="wrap">
-    <div class="cta" data-reveal>
-      <div>
-        <h2 class="h2">{cta.title}</h2>
-        <p class="lead">{cta.sub}</p>
+    <div class="card-dark on-dark cta" data-reveal>
+      <h2 class="d-3xl">{cta.title}</h2>
+      <div class="cta-foot">
+        <p class="body-lg">{cta.sub}</p>
+        <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
       </div>
-      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta-wrap { padding-top: 0; }
-  .cta {
-    display: flex; justify-content: space-between; align-items: center; gap: 32px; flex-wrap: wrap;
-    padding: clamp(36px, 5vw, 64px);
-    border-radius: 20px;
-    background: linear-gradient(120deg, var(--bg-tint), #f8fbff 60%, var(--blue-soft));
-    border: 1px solid #d6e2f5;
+  .cta { display: flex; flex-direction: column; gap: 40px; position: relative; overflow: hidden; }
+  .cta::after {
+    content: ''; position: absolute; right: -40px; top: -40px; width: 340px; height: 340px;
+    background-image: radial-gradient(circle, var(--color-ember) 2.4px, transparent 2.6px);
+    background-size: 13px 13px;
+    -webkit-mask-image: radial-gradient(circle at 70% 30%, #000 10%, transparent 68%);
+    mask-image: radial-gradient(circle at 70% 30%, #000 10%, transparent 68%);
+    pointer-events: none;
   }
-  .cta .lead { margin-top: 10px; }
+  .cta h2 { max-width: 14ch; position: relative; }
+  .cta-foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding-top: 24px; border-top: 1.5px dotted rgba(255, 255, 255, 0.5); position: relative; }
 </style>

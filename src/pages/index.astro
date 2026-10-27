@@ -11,13 +11,18 @@ import { hero, steps, whatWeBuild, gcp, whyUs, casesSection, caseStudies, homeFa
   description="Senior-led engineering capacity for agencies and cloud partners. We build under your brand. NDA by default. We never contact your clients."
 >
   <!-- Hero -->
-  <section class="hero">
-    <canvas class="hero-canvas" data-lanes aria-hidden="true"></canvas>
-    <div class="wrap hero-in">
-      <h1 class="h1 hero-title">{hero.title}</h1>
-      <p class="lead hero-sub">{hero.sub}</p>
-      <p class="hero-note">{hero.note}</p>
-      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
+  <section class="section hero">
+    <div class="wrap">
+      <h1 class="d-hero hero-title">{hero.title}</h1>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="d-sm">{hero.sub}</p>
+          <hr class="dotted-x" />
+          <p class="muted">{hero.note}</p>
+          <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
+        </div>
+        <div class="hero-art" aria-hidden="true"><canvas data-halftone></canvas></div>
+      </div>
     </div>
   </section>
 
@@ -25,16 +30,16 @@ import { hero, steps, whatWeBuild, gcp, whyUs, casesSection, caseStudies, homeFa
   <section class="section">
     <div class="wrap">
       <div class="head" data-reveal>
-        <span class="label">{steps.label}</span>
-        <h2 class="h2">{steps.title}</h2>
-        <p class="lead">{steps.sub}</p>
+        <span class="tag">{steps.label}</span>
+        <h2 class="d-2xl">{steps.title}</h2>
+        <p class="body-lg muted">{steps.sub}</p>
       </div>
-      <ol class="steps grid-3">
+      <ol class="grid-3 plain">
         {steps.items.map((s, i) => (
           <li class="card step" data-reveal style={`transition-delay:${i * 80}ms`}>
-            <span class="step-bar" aria-hidden="true"><span style={`width:${((i + 1) / 3) * 100}%`}></span></span>
-            <h3 class="h3">{s.title}</h3>
-            <p>{s.body}</p>
+            <span class="step-dots" aria-hidden="true">{[0, 1, 2].map((k) => <i class={k <= i ? 'on' : ''}></i>)}</span>
+            <h3 class="d-md">{s.title}</h3>
+            <p class="muted">{s.body}</p>
           </li>
         ))}
       </ol>
@@ -42,24 +47,19 @@ import { hero, steps, whatWeBuild, gcp, whyUs, casesSection, caseStudies, homeFa
   </section>
 
   <!-- What we build -->
-  <section class="section soft">
+  <section class="section">
     <div class="wrap">
-      <div class="head" data-reveal>
-        <h2 class="h2">{whatWeBuild.title}</h2>
-        <p class="lead">{whatWeBuild.sub}</p>
+      <div class="head-row" data-reveal>
+        <h2 class="d-2xl">{whatWeBuild.title}</h2>
+        <p class="body-lg muted">{whatWeBuild.sub}</p>
       </div>
       <div class="grid-4">
         {whatWeBuild.items.map((it, i) => (
           <a href={it.href} class="card build" data-reveal style={`transition-delay:${i * 60}ms`}>
-            <span class="build-ico" aria-hidden="true">
-              {i === 0 && <svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5" /></svg>}
-              {i === 1 && <svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4" /></svg>}
-              {i === 2 && <svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z" /></svg>}
-              {i === 3 && <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z" /><path d="M9 12l2 2 4-4" /></svg>}
-            </span>
-            <h3 class="h3">{it.title}</h3>
+            <span class="build-n">0{i + 1}</span>
+            <h3 class="d-md">{it.title}</h3>
             <p>{it.body}</p>
-            <span class="link">Detail <Arrow /></span>
+            <span class="build-go">Detail <Arrow /></span>
           </a>
         ))}
       </div>
@@ -68,72 +68,42 @@ import { hero, steps, whatWeBuild, gcp, whyUs, casesSection, caseStudies, homeFa
 
   <!-- Google Cloud & AI -->
   <section class="section">
-    <div class="wrap gcp">
-      <div class="gcp-copy" data-reveal>
-        <span class="label">{gcp.label}</span>
-        <h2 class="h2">{gcp.title}</h2>
-        <p class="lead">{gcp.sub}</p>
+    <div class="wrap grid-2 gcp">
+      <div class="panel gcp-copy" data-reveal>
+        <span class="tag">{gcp.label}</span>
+        <h2 class="d-2xl">{gcp.title}</h2>
+        <p class="body-lg muted">{gcp.sub}</p>
         <div class="gcp-items">
           {gcp.items.map((it) => (
             <div class="gcp-item">
-              <h3 class="h3">{it.title}</h3>
-              <p>{it.body}</p>
+              <h3 class="d-sm">{it.title}</h3>
+              <p class="muted">{it.body}</p>
             </div>
           ))}
         </div>
-        <a href={gcp.feature.href} class="card gcp-feature">
-          <div>
-            <h3 class="h3">{gcp.feature.title}</h3>
-            <p>{gcp.feature.body}</p>
-          </div>
-          <span class="gcp-go" aria-hidden="true"><Arrow /></span>
-        </a>
         <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Book a discovery call <Arrow /></a>
       </div>
-      <div class="gcp-art" data-reveal aria-hidden="true">
-        <svg viewBox="0 0 440 440">
-          <defs>
-            <radialGradient id="gcpGlow" cx="50%" cy="50%" r="50%">
-              <stop offset="0" stop-color="#e6eefb" /><stop offset="1" stop-color="#ffffff" stop-opacity="0" />
-            </radialGradient>
-          </defs>
-          <circle cx="220" cy="220" r="210" fill="url(#gcpGlow)" />
-          <circle cx="220" cy="220" r="170" class="ring" />
-          <circle cx="220" cy="220" r="115" class="ring ring-2" />
-          <g class="spokes">
-            {[0, 60, 120, 180, 240, 300].map((a) => {
-              const r = (a * Math.PI) / 180;
-              const x = 220 + Math.cos(r) * 170, y = 220 + Math.sin(r) * 170;
-              return (<><line x1="220" y1="220" x2={x} y2={y} /><circle cx={x} cy={y} r="11" class="node" /></>);
-            })}
-          </g>
-          <circle cx="220" cy="220" r="62" class="core" />
-          <path d="M196 232c0-14 10-26 24-26 9 0 17 5 21 12 9 0 16 7 16 16s-7 16-16 16h-37c-5 0-8-4-8-9" class="cloud" />
-        </svg>
-      </div>
+      <a href={gcp.feature.href} class="plasma" data-reveal>
+        <span class="plasma-go" aria-hidden="true"><Arrow /></span>
+        <h3 class="d-3xl">{gcp.feature.title}</h3>
+        <p class="body-lg">{gcp.feature.body}</p>
+      </a>
     </div>
   </section>
 
   <!-- Why Us -->
-  <section class="section soft">
+  <section class="section">
     <div class="wrap why">
-      <div data-reveal>
-        <span class="label">{whyUs.label}</span>
-        <h2 class="h2">{whyUs.title}</h2>
-        <p class="lead why-sub">{whyUs.sub}</p>
+      <div class="head why-head" data-reveal>
+        <span class="tag">{whyUs.label}</span>
+        <h2 class="d-2xl">{whyUs.title}</h2>
+        <p class="body-lg muted">{whyUs.sub}</p>
       </div>
-      <div class="why-items">
+      <div class="why-cards">
         {whyUs.items.map((it, i) => (
-          <div class="card why-item" data-reveal style={`transition-delay:${i * 80}ms`}>
-            <span class="why-ico" aria-hidden="true">
-              {i === 0
-                ? <svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5M10 13h6M10 17h6" /></svg>
-                : <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" /><path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg>}
-            </span>
-            <div>
-              <h3 class="h3">{it.title}</h3>
-              <p>{it.body}</p>
-            </div>
+          <div class="card-ember why-card" data-reveal style={`transition-delay:${i * 80}ms`}>
+            <h3 class="d-lg">{it.title}</h3>
+            <p>{it.body}</p>
           </div>
         ))}
       </div>
@@ -143,76 +113,80 @@ import { hero, steps, whatWeBuild, gcp, whyUs, casesSection, caseStudies, homeFa
   <!-- Work our founders have led -->
   <section class="section">
     <div class="wrap">
-      <div class="head" data-reveal>
-        <h2 class="h2">{casesSection.title}</h2>
-        <p class="lead">{casesSection.sub}</p>
+      <div class="head-row" data-reveal>
+        <h2 class="d-2xl">{casesSection.title}</h2>
+        <p class="body-lg muted">{casesSection.sub}</p>
       </div>
       <div class="grid-3">
         {caseStudies.map((c, i) => (
-          <div data-reveal style={`transition-delay:${(i % 3) * 70}ms`}>
-            <CaseCard item={c} href="/our-portfolio" />
-          </div>
+          <div data-reveal style={`transition-delay:${(i % 3) * 70}ms`}><CaseCard item={c} href="/our-portfolio" /></div>
         ))}
       </div>
     </div>
   </section>
 
   <CtaBand />
-  <div class="soft"><Faq items={homeFaqs} intro={faqIntro} /></div>
+  <Faq items={homeFaqs} intro={faqIntro} />
 </Base>
 
 <style>
-  .hero { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg-tint) 0%, #fff 100%); border-bottom: 1px solid var(--line); }
-  .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .hero-in { position: relative; padding-top: clamp(72px, 10vw, 140px); padding-bottom: clamp(72px, 10vw, 140px); display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
-  .hero-title { max-width: 16ch; color: var(--navy); }
-  .hero-sub { color: var(--text); max-width: 46ch; }
-  .hero-note { font-size: 15px; color: var(--muted); margin-top: -6px; }
-  .hero .btn { margin-top: 10px; }
+  .plain { list-style: none; margin: 0; padding: 0; }
 
-  .steps { list-style: none; margin: 0; padding: 0; }
-  .step { display: flex; flex-direction: column; gap: 10px; }
-  .step-bar { display: block; height: 4px; border-radius: 4px; background: var(--blue-soft); margin-bottom: 14px; overflow: hidden; }
-  .step-bar span { display: block; height: 100%; background: var(--blue); border-radius: 4px; }
-  .step p { color: var(--muted); }
+  .hero { padding-top: 24px; }
+  .hero-title { max-width: 21ch; font-size: clamp(52px, 7.6vw, 112px); margin-bottom: 24px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: var(--element-gap); }
+  .hero-copy { background: var(--color-limestone); border-radius: var(--radius-cards); padding: clamp(28px, 3.5vw, 40px); display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 20px; }
+  .hero-copy .dotted-x { width: 100%; }
+  .hero-art { border-radius: var(--radius-cards); overflow: hidden; min-height: 420px; background: var(--color-plasma-violet); }
+  .hero-art canvas { width: 100%; height: 100%; }
 
-  .build { display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s, transform 0.2s; }
-  .build:hover { border-color: #b9cdee; transform: translateY(-3px); }
-  .build p { color: var(--muted); font-size: 16px; }
-  .build .link { margin-top: auto; padding-top: 8px; }
-  .build-ico, .why-ico { width: 44px; height: 44px; border-radius: 10px; background: var(--blue-soft); display: grid; place-items: center; margin-bottom: 8px; flex-shrink: 0; }
-  .build-ico svg, .why-ico svg { width: 22px; height: 22px; fill: none; stroke: var(--blue); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .step { display: flex; flex-direction: column; gap: 14px; }
+  .step-dots { display: flex; gap: 6px; margin-bottom: 18px; }
+  .step-dots i { width: 14px; height: 14px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-obsidian); }
+  .step-dots i.on { background: var(--color-ember); box-shadow: none; }
 
-  .gcp { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
-  .gcp-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 0; }
-  .gcp-copy .lead { margin-top: 14px; }
-  .gcp-items { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0 24px; width: 100%; }
-  .gcp-item { border-left: 3px solid var(--blue); padding-left: 16px; }
-  .gcp-item p { color: var(--muted); font-size: 16px; margin-top: 6px; }
-  .gcp-feature { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 28px; transition: border-color 0.2s; }
-  .gcp-feature:hover { border-color: #b9cdee; }
-  .gcp-feature p { color: var(--muted); font-size: 16px; margin-top: 6px; }
-  .gcp-go { width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; flex-shrink: 0; }
-  .gcp-art svg { width: 100%; max-width: 440px; margin: 0 auto; }
-  .ring { fill: none; stroke: #c9d8f1; stroke-width: 1.2; stroke-dasharray: 4 6; }
-  .ring-2 { stroke-dasharray: none; stroke: #dbe5f5; }
-  .spokes { transform-origin: 220px 220px; animation: spin 80s linear infinite; }
-  .spokes line { stroke: #d3dff3; stroke-width: 1; }
-  .node { fill: #fff; stroke: var(--blue); stroke-width: 1.6; }
-  .core { fill: #fff; stroke: var(--blue); stroke-width: 1.6; filter: drop-shadow(0 10px 20px rgba(31, 95, 209, 0.15)); }
-  .cloud { fill: none; stroke: var(--navy); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .spokes { animation: none; } }
+  .build { display: flex; flex-direction: column; gap: 14px; transition: background 0.25s; min-height: 340px; }
+  .build p { color: var(--ink-soft); transition: color 0.25s; }
+  .build-n { font-family: var(--font-display); font-size: 26px; letter-spacing: 0.02em; color: var(--color-ember); margin-bottom: auto; transition: color 0.25s; }
+  .build-go { display: inline-flex; align-items: center; gap: 6px; padding-top: 10px; border-top: var(--dotted); width: 100%; }
+  .build:hover { background: var(--color-ember); }
+  .build:hover p { color: var(--color-obsidian); }
+  .build:hover .build-n { color: var(--color-obsidian); }
 
-  .why { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(32px, 6vw, 88px); align-items: center; }
-  .why-sub { margin-top: 14px; }
-  .why-items { display: grid; gap: 16px; }
-  .why-item { display: flex; gap: 18px; align-items: flex-start; }
-  .why-item p { color: var(--muted); margin-top: 6px; }
+  .gcp-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
+  .gcp-items { width: 100%; margin: 12px 0 16px; }
+  .gcp-item { padding: 20px 0; border-top: var(--dotted); display: flex; flex-direction: column; gap: 6px; }
+  .gcp-item:last-child { border-bottom: var(--dotted); }
+  .plasma {
+    position: relative;
+    display: flex; flex-direction: column; justify-content: flex-end; gap: 16px;
+    border-radius: var(--radius-cards);
+    padding: clamp(28px, 4vw, 48px);
+    min-height: 420px;
+    color: var(--color-chalk);
+    background-color: var(--color-plasma-violet);
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.22) 1.7px, transparent 1.9px);
+    background-size: 12px 12px;
+    overflow: hidden;
+  }
+  .plasma::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(200deg, transparent 30%, var(--color-plasma-violet) 72%);
+    pointer-events: none;
+  }
+  .plasma > * { position: relative; }
+  .plasma .body-lg { max-width: 34ch; }
+  .plasma-go { position: absolute !important; top: 28px; right: 28px; width: 56px; height: 56px; border-radius: 50%; background: var(--color-ember); color: var(--color-obsidian); display: grid; place-items: center; transition: transform 0.25s; }
+  .plasma:hover .plasma-go { transform: rotate(-45deg); }
+
+  .why { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--element-gap); align-items: stretch; }
+  .why-head { margin: 0; padding: clamp(28px, 3.2vw, 40px) clamp(0px, 2vw, 24px) 0 0; }
+  .why-cards { display: grid; gap: var(--element-gap); }
+  .why-card { color: var(--color-obsidian); display: flex; flex-direction: column; gap: 14px; min-height: 220px; justify-content: flex-end; }
 
   @media (max-width: 900px) {
-    .gcp, .why { grid-template-columns: 1fr; }
-    .gcp-art { order: -1; max-width: 320px; margin: 0 auto; }
+    .hero-grid, .why { grid-template-columns: 1fr; }
+    .hero-art { order: -1; min-height: 240px; height: 240px; }
+    .plasma { min-height: 320px; }
   }
-  @media (max-width: 560px) { .gcp-items { grid-template-columns: 1fr; } }
 </style>

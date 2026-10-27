@@ -4,82 +4,97 @@ import { solutions, BOOK_URL, CAREERS_URL, BLOGS_URL } from '../data/site';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const active = (p: string) => (path === p || path.startsWith(p + '/') ? 'is-active' : '');
 ---
-<header class="hdr" data-header>
-  <div class="wrap hdr-in">
-    <Logo />
-    <nav class="nav" aria-label="Main">
-      <div class="drop">
-        <button class={`nav-link ${active('/solutions')}`} aria-haspopup="true" aria-expanded="false" data-drop-btn>
-          Solutions
-          <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-        <div class="drop-panel" data-drop-panel>
-          {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="drop-item">{s.title}</a>)}
+<header class="hdr">
+  <div class="wrap">
+    <div class="hdr-pill">
+      <Logo />
+      <nav class="nav" aria-label="Main">
+        <div class="drop">
+          <button class={`nav-link ${active('/solutions')}`} aria-haspopup="true" aria-expanded="false" data-drop-btn>
+            Solutions
+            <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </button>
+          <div class="drop-panel" data-drop-panel>
+            {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="drop-item">{s.title}</a>)}
+          </div>
         </div>
-      </div>
-      <a href="/our-portfolio" class={`nav-link ${active('/our-portfolio')}`}>Our Portfolio</a>
-      <a href={BLOGS_URL} class="nav-link">Blogs</a>
-      <a href="/about-us" class={`nav-link ${active('/about-us')}`}>About Us</a>
-      <a href={CAREERS_URL} class="nav-link" target="_blank" rel="noopener">Careers</a>
-    </nav>
-    <a href={BOOK_URL} class="btn btn-sm hdr-cta" target="_blank" rel="noopener">Let’s Connect</a>
-    <button class="burger" aria-label="Menu" aria-expanded="false" data-burger><span></span><span></span><span></span></button>
+        <span class="sep" aria-hidden="true"></span>
+        <a href="/our-portfolio" class={`nav-link ${active('/our-portfolio')}`}>Our Portfolio</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a href={BLOGS_URL} class="nav-link">Blogs</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a href="/about-us" class={`nav-link ${active('/about-us')}`}>About Us</a>
+        <span class="sep" aria-hidden="true"></span>
+        <a href={CAREERS_URL} class="nav-link" target="_blank" rel="noopener">Careers</a>
+      </nav>
+      <a href={BOOK_URL} class="btn hdr-cta" target="_blank" rel="noopener">Let’s Connect</a>
+      <button class="burger" aria-label="Menu" aria-expanded="false" data-burger><span></span><span></span></button>
+    </div>
   </div>
 
   <div class="mnav" data-mnav>
     <div class="wrap">
-      <p class="mnav-h">Solutions</p>
-      {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="mnav-sub">{s.title}</a>)}
-      <hr />
-      <a href="/our-portfolio">Our Portfolio</a>
-      <a href={BLOGS_URL}>Blogs</a>
-      <a href="/about-us">About Us</a>
-      <a href={CAREERS_URL} target="_blank" rel="noopener">Careers</a>
-      <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Let’s Connect</a>
+      <div class="mnav-card">
+        <span class="tag">Solutions</span>
+        {solutions.map((s) => <a href={`/solutions/${s.slug}`} class="mnav-sub">{s.title}</a>)}
+        <hr class="dotted-x" />
+        <a href="/our-portfolio" class="mnav-main">Our Portfolio</a>
+        <a href={BLOGS_URL} class="mnav-main">Blogs</a>
+        <a href="/about-us" class="mnav-main">About Us</a>
+        <a href={CAREERS_URL} target="_blank" rel="noopener" class="mnav-main">Careers</a>
+        <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">Let’s Connect</a>
+      </div>
     </div>
   </div>
 </header>
 
 <style>
-  .hdr { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid transparent; transition: border-color 0.2s, box-shadow 0.2s; }
-  .hdr.is-scrolled { border-color: var(--line); box-shadow: 0 4px 16px -12px rgba(15, 27, 45, 0.25); }
-  .hdr-in { display: flex; align-items: center; gap: 24px; height: 72px; }
-  .nav { display: flex; gap: 2px; margin-left: auto; }
-  .nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 15px; font-weight: 500; color: var(--muted); transition: color 0.2s, background 0.2s; }
-  .nav-link:hover, .nav-link.is-active { color: var(--navy); background: var(--bg-soft); }
+  .hdr { position: sticky; top: 0; z-index: 50; padding: 16px 0; background: linear-gradient(var(--color-pumice) 60%, rgba(226, 226, 223, 0)); }
+  .hdr-pill {
+    display: flex; align-items: center; gap: 20px;
+    padding: 8px 8px 8px 24px;
+    border-radius: var(--radius-pills);
+    background: var(--color-limestone);
+  }
+  .nav { display: flex; align-items: center; gap: 9px; margin-left: auto; }
+  .nav-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: var(--radius-pills); font-size: 16px; transition: background 0.2s, color 0.2s; }
+  .nav-link:hover { color: var(--color-ember); }
+  .nav-link.is-active { background: var(--color-pumice); }
+  .sep { width: 0; height: 18px; border-left: var(--dotted); }
+  .hdr-cta { margin-left: 8px; }
+
   .drop { position: relative; }
   .drop-panel {
-    position: absolute; top: calc(100% + 8px); left: 0; min-width: 300px;
-    padding: 8px; border-radius: 12px; background: #fff; border: 1px solid var(--line);
-    box-shadow: 0 16px 40px -16px rgba(15, 27, 45, 0.25);
+    position: absolute; top: calc(100% + 18px); left: -12px; min-width: 320px;
+    padding: 12px; border-radius: var(--radius-medium);
+    background: var(--color-limestone);
+    outline: 1.5px solid var(--color-obsidian);
     opacity: 0; visibility: hidden; transform: translateY(-4px);
     transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
   }
+  .drop-panel::before { content: ''; position: absolute; left: 0; right: 0; top: -20px; height: 20px; }
   .drop:hover .drop-panel, .drop:focus-within .drop-panel, .drop-panel.is-open { opacity: 1; visibility: visible; transform: none; }
-  .drop-item { display: block; padding: 10px 12px; border-radius: 8px; font-size: 15px; }
-  .drop-item:hover { background: var(--bg-tint); color: var(--navy); }
+  .drop-item { display: block; padding: 10px 14px; border-radius: var(--radius-pills); }
+  .drop-item:hover { background: var(--color-ember); }
 
-  .burger { display: none; margin-left: auto; width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); position: relative; }
-  .burger span { position: absolute; left: 12px; right: 12px; height: 1.6px; background: var(--navy); transition: transform 0.25s, opacity 0.25s; }
-  .burger span:nth-child(1) { top: 15px; }
-  .burger span:nth-child(2) { top: 21px; }
-  .burger span:nth-child(3) { top: 27px; }
-  .burger[aria-expanded='true'] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-  .burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
-  .burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .burger { display: none; margin-left: auto; width: 48px; height: 48px; border-radius: 50%; background: var(--color-ember); position: relative; }
+  .burger span { position: absolute; left: 15px; right: 15px; height: 2px; background: var(--color-obsidian); transition: transform 0.25s; }
+  .burger span:first-child { top: 19px; }
+  .burger span:last-child { top: 27px; }
+  .burger[aria-expanded='true'] span:first-child { transform: translateY(4px) rotate(45deg); }
+  .burger[aria-expanded='true'] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
-  .mnav { display: none; position: fixed; top: 72px; left: 0; right: 0; bottom: 0; background: #fff; overflow-y: auto; padding: 16px 0 40px; border-top: 1px solid var(--line); }
+  .mnav { display: none; position: fixed; top: 92px; left: 0; right: 0; bottom: 0; overflow-y: auto; padding-bottom: 24px; background: var(--color-pumice); }
   .mnav.is-open { display: block; }
-  .mnav .wrap { display: flex; flex-direction: column; gap: 4px; }
-  .mnav a:not(.btn) { padding: 10px 0; font-size: 18px; font-weight: 500; }
-  .mnav .mnav-sub { font-size: 16px !important; color: var(--muted); padding: 7px 0 !important; }
-  .mnav-h { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
-  .mnav hr { border: 0; border-top: 1px solid var(--line); width: 100%; margin: 12px 0; }
-  .mnav .btn { margin-top: 16px; justify-content: center; }
+  .mnav-card { background: var(--color-limestone); border-radius: var(--radius-cards); padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  .mnav-sub { padding: 4px 0; color: var(--ink-soft); }
+  .mnav .dotted-x { width: 100%; margin: 12px 0; }
+  .mnav-main { font-family: var(--font-display); font-size: 32px; line-height: 1.15; letter-spacing: 0.02em; }
+  .mnav .btn { margin-top: 16px; }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1060px) {
     .nav, .hdr-cta { display: none; }
     .burger { display: block; }
-    .hdr-in { height: 72px; }
+    .hdr-pill { padding: 6px 6px 6px 22px; }
   }
 </style>

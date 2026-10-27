@@ -4,8 +4,8 @@ import Arrow from './Arrow.astro';
 interface Props { item: CaseStudy; href?: string; large?: boolean }
 const { item, href, large = false } = Astro.props;
 ---
-<article class={`case card ${large ? 'is-large' : ''}`} style={`--c:${item.color}`}>
-  <div class="case-logo">
+<article class={`case ${large ? 'is-large' : ''}`}>
+  <div class="case-art">
     {item.logo && !item.mark && <img src={item.logo} alt={`${item.client} logo`} class="wordmark" loading="lazy" />}
     {item.logo && item.mark && (
       <span class="mark-row">
@@ -16,31 +16,32 @@ const { item, href, large = false } = Astro.props;
     {!item.logo && <span class="name">{item.client}</span>}
   </div>
   <div class="case-body">
-    <h3 class="h3">{item.title}</h3>
-    <p>{item.result}</p>
-    {href && <a href={href} class="link">Read Detailed Case Study <Arrow /></a>}
+    <h3 class={large ? 'd-lg' : 'd-md'}>{item.title}</h3>
+    <p class="muted">{item.result}</p>
+    {href && <a href={href} class="btn btn-outline case-btn">Read Detailed Case Study <Arrow /></a>}
   </div>
 </article>
 
 <style>
-  .case { padding: 0; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.25s, box-shadow 0.25s; }
-  .case:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(15, 27, 45, 0.04), 0 20px 40px -20px rgba(15, 27, 45, 0.25); }
-  .case-logo {
+  .case { display: flex; flex-direction: column; height: 100%; background: var(--color-limestone); border-radius: var(--radius-cards); padding: 16px; }
+  .case-art {
     position: relative;
-    height: 150px;
+    height: 180px;
     display: grid; place-items: center;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--c) 7%, #fff), #fff);
-    border-bottom: 1px solid var(--line);
+    border-radius: calc(var(--radius-cards) - 12px);
+    background-color: var(--color-ember);
+    background-image: radial-gradient(circle, rgba(7, 6, 7, 0.16) 1.6px, transparent 1.8px);
+    background-size: 11px 11px;
+    overflow: hidden;
   }
-  .case-logo::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: var(--c); }
-  .is-large .case-logo { height: 200px; }
-  .wordmark { height: 38px; width: auto; max-width: 60%; }
-  .is-large .wordmark { height: 50px; }
-  .mark-row { display: inline-flex; align-items: center; gap: 12px; }
-  .mark { width: 40px; height: 40px; }
-  .name { font-size: 26px; font-weight: 680; letter-spacing: -0.025em; color: var(--c); }
-  .is-large .name { font-size: 32px; }
-  .case-body { padding: 24px 26px 26px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
-  .case-body p { color: var(--muted); font-size: 16px; }
-  .case-body .link { margin-top: auto; padding-top: 8px; }
+  .is-large .case-art { height: 260px; }
+  .wordmark { height: 40px; width: auto; max-width: 62%; }
+  .is-large .wordmark { height: 56px; }
+  .mark-row { display: inline-flex; align-items: center; gap: 14px; }
+  .mark { width: 44px; height: 44px; }
+  .name { font-family: var(--font-display); font-size: 40px; line-height: 1; letter-spacing: 0.02em; color: var(--color-obsidian); text-align: center; padding: 0 16px; }
+  .is-large .name { font-size: 52px; }
+  .case-body { padding: 24px 16px 16px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; flex: 1; }
+  .case-btn { margin-top: auto; }
+  .case-body .muted { margin-bottom: 8px; }
 </style>

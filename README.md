@@ -1,6 +1,11 @@
 # Synthlane — website redesign
 
-A light, simple redesign of [synthlane.com](https://synthlane.com), built with **Astro**. The audience is senior management at companies, PSUs and government institutions, so the design is calm and readable: white and soft-grey sections, navy and blue accents, one clean sans-serif typeface, and only gentle motion (sections fade in, a slow animated grid behind each hero). Motion is switched off for visitors who set reduced motion.
+A redesign of [synthlane.com](https://synthlane.com), built with **Astro** and styled to the **Caldera** design system (`docs/caldera-style.md`):
+
+- **Colour:** warm Pumice canvas (#e2e2df), Limestone cards (#f7f6f2), Obsidian text, Ember (#fc5000) as the single action colour, Plasma Violet only in the halftone heroes and the AI & ML card, Sulfur for tags.
+- **Type:** Anton stands in for PP Neue Corp Compact on all headings (condensed ultrabold, +0.02em tracking); DM Sans Medium (500) for all body text. To use the licensed PP Neue Corp Compact, add it with `@font-face` and put it first in `--font-display` in `src/styles/global.css`.
+- **Shape:** flat (no shadows), 40px card radius, pill buttons and tags, dotted dividers.
+- **Signature motif:** an animated halftone (ember dots on a violet-to-ember gradient) in every page hero. The dots drift slowly and swell under the pointer; it shows as a still frame for visitors who prefer reduced motion.
 
 Content, page structure and navigation follow the live site.
 
@@ -27,8 +32,10 @@ Deploys as a static site to Vercel, Netlify, Cloudflare Pages or GitHub Pages wi
 
 `public/logos/` holds the logo files:
 
-- **Clients:** Zomato, Siemens, Byju's (used for Toppr (Byju's)) — from [Simple Icons](https://simpleicons.org), in each brand's colour.
-- **Tech stack:** Node.js, C++, .NET, React, Python, Java — from the Iconify `logos` set.
+All logos are monochrome Obsidian, as the style guide asks.
+
+- **Clients:** Zomato, Siemens, Byju's (used for Toppr (Byju's)) — from [Simple Icons](https://simpleicons.org).
+- **Tech stack:** Node.js, C++, .NET, React, Python (Simple Icons) and Java (Iconify `logos` set).
 
 AlgoMage, Authlayer, Vinyo, BidYourStay, Qumulo and the AI-Powered Sales Calling Platform show their name as text, because no logo file was available. To add one, drop an SVG or PNG in `public/logos/` and set `logo: '/logos/<file>'` on that entry in `src/data/site.ts`.
 

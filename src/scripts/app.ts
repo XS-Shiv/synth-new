@@ -1,9 +1,8 @@
-import { mountLanes } from './lanes';
+import { mountHalftone } from './halftone';
 
 document.documentElement.classList.add('js');
 
-// Hero background
-document.querySelectorAll<HTMLCanvasElement>('[data-lanes]').forEach(mountLanes);
+document.querySelectorAll<HTMLCanvasElement>('[data-halftone]').forEach(mountHalftone);
 
 // Fade sections in as they scroll into view
 const io = new IntersectionObserver(
@@ -13,12 +12,6 @@ const io = new IntersectionObserver(
   { rootMargin: '0px 0px -8% 0px' },
 );
 document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
-
-// Header: shadow once scrolled
-const hdr = document.querySelector<HTMLElement>('[data-header]');
-const onScroll = () => hdr?.classList.toggle('is-scrolled', window.scrollY > 8);
-onScroll();
-window.addEventListener('scroll', onScroll, { passive: true });
 
 // Solutions dropdown (click/keyboard; hover handled in CSS)
 const dropBtn = document.querySelector<HTMLButtonElement>('[data-drop-btn]');

@@ -9,6 +9,7 @@ export function getStaticPaths() {
   return solutions.map((s) => ({ params: { slug: s.slug }, props: { s } }));
 }
 const { s } = Astro.props as { s: Solution };
+const cols = s.services.length === 4 ? 'grid-2' : 'grid-3';
 ---
 <Base title={`${s.title} | Synthlane`} description={s.intro}>
   <PageHero title={s.title} intro={s.intro} cta="Book a Free Consultation" crumbs={[{ label: 'Solutions' }, { label: s.title }]} />
@@ -16,34 +17,34 @@ const { s } = Astro.props as { s: Solution };
   <section class="section">
     <div class="wrap">
       <div class="head" data-reveal>
-        <h2 class="h2">{s.coreTitle}</h2>
-        <p class="lead">{s.coreSub}</p>
+        <h2 class="d-2xl">{s.coreTitle}</h2>
+        <p class="body-lg muted">{s.coreSub}</p>
       </div>
-      <div class={s.services.length % 3 === 0 || s.services.length === 5 ? 'grid-3' : 'grid-2'}>
+      <div class={cols}>
         {s.services.map((it, i) => (
           <article class="card svc" data-reveal style={`transition-delay:${(i % 3) * 60}ms`}>
-            <span class="svc-n">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="h3">{it.title}</h3>
-            <p>{it.body}</p>
+            <span class="tag">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="d-md">{it.title}</h3>
+            <p class="muted">{it.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="section soft">
+  <section class="section">
     <div class="wrap why">
-      <div data-reveal>
-        <h2 class="h2">{s.whyTitle}</h2>
-        <p class="lead why-sub">{s.whySub}</p>
+      <div class="card-ember why-intro" data-reveal>
+        <h2 class="d-2xl">{s.whyTitle}</h2>
+        <p class="body-lg">{s.whySub}</p>
       </div>
       <ul class="why-list">
         {s.why.map((w, i) => (
-          <li class="card" data-reveal style={`transition-delay:${i * 60}ms`}>
+          <li data-reveal style={`transition-delay:${i * 60}ms`}>
             <span class="tick" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.5 8.5l3 3 6-7" /></svg></span>
             <div>
-              <h3 class="h3">{w.title}</h3>
-              <p>{w.body}</p>
+              <h3 class="d-sm">{w.title}</h3>
+              <p class="muted">{w.body}</p>
             </div>
           </li>
         ))}
@@ -53,9 +54,9 @@ const { s } = Astro.props as { s: Solution };
 
   <section class="section">
     <div class="wrap">
-      <div class="head" data-reveal>
-        <h2 class="h2">{casesSection.title}</h2>
-        <p class="lead">{casesSection.sub}</p>
+      <div class="head-row" data-reveal>
+        <h2 class="d-2xl">{casesSection.title}</h2>
+        <p class="body-lg muted">{casesSection.sub}</p>
       </div>
       <div class="grid-3">
         {caseStudies.map((c, i) => (
@@ -65,69 +66,74 @@ const { s } = Astro.props as { s: Solution };
     </div>
   </section>
 
-  <section class="section soft">
+  <section class="section">
     <div class="wrap">
-      <div class="head center" data-reveal>
-        <h2 class="h2">Our Tech stack</h2>
-        <p class="lead">{s.stackSub}</p>
+      <div class="panel stack" data-reveal>
+        <div class="stack-head">
+          <h2 class="d-lg">Our Tech stack</h2>
+          <p class="muted">{s.stackSub}</p>
+        </div>
+        <ul class="stack-row">
+          {techStack.map((t) => (
+            <li><img src={t.logo} alt="" loading="lazy" /><span>{t.name}</span></li>
+          ))}
+        </ul>
       </div>
-      <ul class="stack" data-reveal>
-        {techStack.map((t) => (
-          <li class="card"><img src={t.logo} alt={t.name} loading="lazy" /><span>{t.name}</span></li>
-        ))}
-      </ul>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <div class="head" data-reveal>
-        <h2 class="h2">{s.processTitle}</h2>
-        {s.processSub && <p class="lead">{s.processSub}</p>}
+        <h2 class="d-2xl">{s.processTitle}</h2>
+        {s.processSub && <p class="body-lg muted">{s.processSub}</p>}
       </div>
-      <ol class="proc grid-4">
+      <ol class="grid-4 proc">
         {s.process.map((p, i) => (
-          <li class="proc-step" data-reveal style={`transition-delay:${i * 70}ms`}>
+          <li class="card proc-step" data-reveal style={`transition-delay:${i * 70}ms`}>
             <span class="proc-n">{i + 1}</span>
-            <h3 class="h3">{p.title}</h3>
-            <p>{p.body}</p>
+            <h3 class="d-sm">{p.title}</h3>
+            <p class="muted">{p.body}</p>
           </li>
         ))}
       </ol>
     </div>
   </section>
 
-  <div class="soft"><Faq items={s.faqs} /></div>
+  <Faq items={s.faqs} />
 </Base>
 
 <style>
-  .svc { display: flex; flex-direction: column; gap: 10px; }
-  .svc-n { font-size: 14px; font-weight: 680; color: var(--blue); }
-  .svc p { color: var(--muted); font-size: 16px; }
+  .svc { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-height: 260px; }
+  .svc .tag { margin-bottom: auto; }
 
-  .why { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 80px); align-items: start; }
-  .why-sub { margin-top: 14px; }
-  .why-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .why-list li { display: flex; gap: 14px; align-items: flex-start; padding: 22px; }
-  .why-list p { color: var(--muted); font-size: 15px; margin-top: 4px; }
-  .tick { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--blue-soft); display: grid; place-items: center; }
-  .tick svg { width: 14px; height: 14px; fill: none; stroke: var(--blue); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .why { display: grid; grid-template-columns: 1fr 1.25fr; gap: var(--element-gap); align-items: stretch; }
+  .why-intro { color: var(--color-obsidian); display: flex; flex-direction: column; justify-content: flex-end; gap: 16px; min-height: 380px; }
+  .why-list { list-style: none; margin: 0; padding: clamp(24px, 3.2vw, 40px); background: var(--color-limestone); border-radius: var(--radius-cards); display: flex; flex-direction: column; }
+  .why-list li { display: flex; gap: 16px; align-items: flex-start; padding: 20px 0; border-bottom: var(--dotted); }
+  .why-list li:first-child { padding-top: 0; }
+  .why-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .why-list p { margin-top: 6px; }
+  .tick { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--color-ember); display: grid; place-items: center; }
+  .tick svg { width: 15px; height: 15px; fill: none; stroke: var(--color-obsidian); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 
-  .stack { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; max-width: 960px; }
-  .stack li { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 24px 12px; }
-  .stack img { height: 44px; width: auto; }
-  .stack span { font-size: 14px; font-weight: 560; color: var(--muted); }
+  .stack { display: flex; flex-direction: column; gap: 32px; }
+  .stack-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px 40px; flex-wrap: wrap; }
+  .stack-head .muted { max-width: 46ch; }
+  .stack-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, 1fr); }
+  .stack-row li { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 8px; border-left: var(--dotted); }
+  .stack-row li:first-child { border-left: 0; }
+  .stack-row img { height: 40px; width: auto; max-width: 90px; }
+  .stack-row span { font-size: 14px; }
 
-  .proc { list-style: none; margin: 0; padding: 0; position: relative; }
-  .proc::before { content: ''; position: absolute; left: 22px; right: 22px; top: 22px; height: 2px; background: linear-gradient(90deg, var(--blue), #c9d8f1); }
-  .proc-step { position: relative; display: flex; flex-direction: column; gap: 8px; }
-  .proc-n { width: 44px; height: 44px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-weight: 640; margin-bottom: 12px; box-shadow: 0 0 0 6px #fff; }
-  .proc-step p { color: var(--muted); font-size: 16px; }
+  .proc { list-style: none; margin: 0; padding: 0; }
+  .proc-step { display: flex; flex-direction: column; gap: 12px; min-height: 260px; }
+  .proc-n { width: 56px; height: 56px; border-radius: 50%; background: var(--color-ember); display: grid; place-items: center; font-family: var(--font-display); font-size: 26px; margin-bottom: auto; }
 
   @media (max-width: 900px) {
     .why { grid-template-columns: 1fr; }
-    .stack { grid-template-columns: repeat(3, 1fr); }
-    .proc::before { display: none; }
+    .why-intro { min-height: 0; }
+    .stack-row { grid-template-columns: repeat(3, 1fr); row-gap: 16px; }
+    .stack-row li:nth-child(4) { border-left: 0; }
   }
-  @media (max-width: 560px) { .why-list { grid-template-columns: 1fr; } }
 </style>

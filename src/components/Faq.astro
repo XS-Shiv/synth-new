@@ -4,40 +4,45 @@ interface Props { items: Faq[]; intro?: string }
 const { items, intro } = Astro.props;
 ---
 {items.length > 0 && (
-  <section class="section faq">
-    <div class="wrap faq-grid">
-      <div class="faq-head" data-reveal>
-        <h2 class="h2">Frequently Asked Questions</h2>
-        {intro && <p class="lead">{intro}</p>}
-      </div>
-      <div class="faq-list" data-reveal>
-        {items.map((f, i) => (
-          <details class="faq-item">
-            <summary>
-              <span class="faq-q">{i + 1}. {f.q}</span>
-              <span class="faq-icon" aria-hidden="true"></span>
-            </summary>
-            <p class="faq-a">{f.a}</p>
-          </details>
-        ))}
+  <section class="section">
+    <div class="wrap">
+      <div class="panel faq" data-reveal>
+        <div class="faq-head">
+          <h2 class="d-2xl">Frequently Asked Questions</h2>
+          {intro && <p class="body-lg muted">{intro}</p>}
+        </div>
+        <div class="faq-list">
+          {items.map((f, i) => (
+            <details class="faq-item">
+              <summary>
+                <span class="faq-n">{i + 1}.</span>
+                <span class="faq-q">{f.q}</span>
+                <span class="faq-icon" aria-hidden="true"></span>
+              </summary>
+              <p class="faq-a muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 )}
 
 <style>
-  .faq-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(32px, 5vw, 80px); align-items: start; }
-  .faq-head .lead { margin-top: 14px; }
-  .faq-list { border-top: 1px solid var(--line); }
-  .faq-item { border-bottom: 1px solid var(--line); }
-  summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; cursor: pointer; }
+  .faq { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .faq-head { display: flex; flex-direction: column; gap: 16px; }
+  .faq-item { border-bottom: var(--dotted); }
+  .faq-item:first-child { border-top: var(--dotted); }
+  summary { list-style: none; display: grid; grid-template-columns: 32px 1fr 36px; align-items: center; gap: 8px; padding: 20px 0; cursor: pointer; }
   summary::-webkit-details-marker { display: none; }
-  .faq-q { font-size: 18px; font-weight: 560; }
-  summary:hover .faq-q { color: var(--blue); }
-  .faq-icon { position: relative; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--bg-tint); }
-  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; left: 8px; right: 8px; top: 13.2px; height: 1.6px; background: var(--navy); transition: transform 0.25s; }
+  .faq-n { color: var(--color-ember); }
+  .faq-q { font-size: 18px; line-height: 1.35; }
+  summary:hover .faq-q { color: var(--color-ember); }
+  .faq-icon { position: relative; width: 36px; height: 36px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--color-obsidian); transition: background 0.2s, box-shadow 0.2s; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; left: 11px; right: 11px; top: 17px; height: 1.6px; background: var(--color-obsidian); transition: transform 0.25s; }
   .faq-icon::after { transform: rotate(90deg); }
+  details[open] .faq-icon { background: var(--color-ember); box-shadow: none; }
   details[open] .faq-icon::after { transform: rotate(0); }
-  .faq-a { padding: 0 48px 22px 0; color: var(--muted); }
-  @media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-a { padding: 0 44px 22px 40px; max-width: 64ch; }
+  @media (max-width: 900px) { .faq { grid-template-columns: 1fr; } .faq-a { padding-right: 0; } }
 </style>

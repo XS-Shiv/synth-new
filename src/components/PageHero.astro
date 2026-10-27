@@ -4,27 +4,36 @@ import { BOOK_URL } from '../data/site';
 interface Props { title: string; intro?: string; cta?: string; crumbs?: { label: string; href?: string }[] }
 const { title, intro, cta, crumbs = [] } = Astro.props;
 ---
-<section class="phero">
-  <canvas class="phero-canvas" data-lanes aria-hidden="true"></canvas>
-  <div class="wrap phero-in">
-    {crumbs.length > 0 && (
-      <nav class="crumbs" aria-label="Breadcrumb">
-        <a href="/">Home</a>
-        {crumbs.map((c) => (<><span aria-hidden="true">/</span>{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>))}
-      </nav>
-    )}
-    <h1 class="h1">{title}</h1>
-    {intro && <p class="lead">{intro}</p>}
-    {cta && <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">{cta} <Arrow /></a>}
+<section class="section phero">
+  <div class="wrap phero-grid">
+    <div class="phero-copy">
+      {crumbs.length > 0 && (
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          {crumbs.map((c) => (<><span aria-hidden="true">/</span>{c.href ? <a href={c.href}>{c.label}</a> : <span>{c.label}</span>}</>))}
+        </nav>
+      )}
+      <h1 class={title.length > 40 ? 'display d-long' : 'd-3xl'}>{title}</h1>
+      {intro && <p class="body-lg muted">{intro}</p>}
+      {cta && <a href={BOOK_URL} class="btn" target="_blank" rel="noopener">{cta} <Arrow /></a>}
+    </div>
+    <div class="phero-art" aria-hidden="true"><canvas data-halftone></canvas></div>
   </div>
 </section>
 
 <style>
-  .phero { position: relative; overflow: hidden; background: linear-gradient(180deg, var(--bg-tint), #fff); border-bottom: 1px solid var(--line); }
-  .phero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .phero-in { position: relative; padding-top: clamp(56px, 7vw, 96px); padding-bottom: clamp(56px, 7vw, 96px); display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
-  .phero-in .h1 { max-width: 20ch; }
-  .crumbs { display: flex; gap: 8px; font-size: 14px; color: var(--muted); }
-  .crumbs a:hover { color: var(--blue); }
-  .btn { margin-top: 8px; }
+  .phero { padding-top: 24px; }
+  .phero-grid { display: grid; grid-template-columns: 1.35fr 1fr; gap: var(--element-gap); align-items: stretch; }
+  .phero-copy { background: var(--color-limestone); border-radius: var(--radius-cards); padding: clamp(28px, 4.5vw, 56px); display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; gap: 20px; min-height: 380px; }
+  .phero-copy .body-lg { max-width: 54ch; }
+  .d-long { font-size: clamp(40px, 4.4vw, 60px); line-height: 1; }
+  .crumbs { display: flex; gap: 8px; font-size: 14px; color: var(--ink-soft); margin-bottom: auto; padding-bottom: 24px; }
+  .crumbs a:hover { color: var(--color-ember); }
+  .phero-art { border-radius: var(--radius-cards); overflow: hidden; min-height: 280px; background: var(--color-plasma-violet); }
+  .phero-art canvas { width: 100%; height: 100%; }
+  @media (max-width: 860px) {
+    .phero-grid { grid-template-columns: 1fr; }
+    .phero-copy { min-height: 0; }
+    .phero-art { order: -1; min-height: 180px; height: 180px; }
+  }
 </style>

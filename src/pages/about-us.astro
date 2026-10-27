@@ -12,39 +12,41 @@ import { about, aboutFaqs, faqIntro } from '../data/site';
 
   <section class="section">
     <div class="wrap">
-      <div class="head" data-reveal><h2 class="h2">{about.mvTitle}</h2></div>
+      <div class="head" data-reveal><h2 class="d-2xl">{about.mvTitle}</h2></div>
       <div class="grid-2">
         <article class="card mv" data-reveal>
-          <span class="label">Mission</span>
-          <p class="mv-text">{about.mission}</p>
+          <span class="tag">Mission</span>
+          <p class="d-lg">{about.mission}</p>
         </article>
-        <article class="card mv" data-reveal style="transition-delay:80ms">
-          <span class="label">Vision</span>
-          <p class="mv-text">{about.vision}</p>
+        <article class="card-ember mv mv-ember" data-reveal style="transition-delay:80ms">
+          <span class="tag">Vision</span>
+          <p class="d-lg">{about.vision}</p>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section soft">
+  <section class="section">
     <div class="wrap">
-      <div class="head" data-reveal><h2 class="h2">{about.valuesTitle}</h2></div>
+      <div class="head" data-reveal><h2 class="d-2xl">{about.valuesTitle}</h2></div>
       <div class="grid-3">
         {about.values.map((v, i) => (
           <article class="card value" data-reveal style={`transition-delay:${i * 80}ms`}>
             <span class="value-n">0{i + 1}</span>
-            <h3 class="h3">{v.title}</h3>
-            <p>{v.body}</p>
+            <h3 class="d-md">{v.title}</h3>
+            <p class="muted">{v.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="band">
-    <div class="wrap band-in" data-reveal>
-      <p class="band-title">{about.band}</p>
-      <p class="band-sub">{about.bandSub}</p>
+  <section class="section">
+    <div class="wrap">
+      <div class="band" data-reveal>
+        <p class="d-3xl">{about.band}</p>
+        <p class="d-lg band-sub">{about.bandSub}</p>
+      </div>
     </div>
   </section>
 
@@ -52,13 +54,25 @@ import { about, aboutFaqs, faqIntro } from '../data/site';
 </Base>
 
 <style>
-  .mv { display: flex; flex-direction: column; gap: 12px; padding: clamp(28px, 3.5vw, 44px); border-top: 3px solid var(--blue); }
-  .mv-text { font-size: clamp(21px, 2vw, 26px); line-height: 1.4; font-weight: 520; letter-spacing: -0.01em; color: var(--navy); }
-  .value { display: flex; flex-direction: column; gap: 10px; }
-  .value-n { font-size: 15px; font-weight: 680; color: var(--blue); }
-  .value p { color: var(--muted); }
-  .band { background: var(--navy); color: #fff; }
-  .band-in { padding-top: clamp(48px, 6vw, 72px); padding-bottom: clamp(48px, 6vw, 72px); display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
-  .band-title { font-size: clamp(26px, 3.2vw, 40px); font-weight: 620; letter-spacing: -0.02em; }
-  .band-sub { font-size: clamp(18px, 1.6vw, 22px); color: #b9cdee; font-weight: 520; }
+  .mv { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 48px; min-height: 320px; }
+  .mv-ember { color: var(--color-obsidian); }
+  .value { display: flex; flex-direction: column; gap: 14px; min-height: 280px; }
+  .value-n { font-family: var(--font-display); font-size: 80px; line-height: 1; letter-spacing: 0.02em; color: var(--color-ember); margin-bottom: auto; }
+  .band {
+    position: relative; overflow: hidden;
+    border-radius: var(--radius-cards);
+    padding: clamp(32px, 5vw, 64px);
+    background-color: var(--color-limestone);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .band::after {
+    content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+    background-image: radial-gradient(circle, var(--color-ember) 2.6px, transparent 2.8px);
+    background-size: 13px 13px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 85%);
+    mask-image: linear-gradient(90deg, transparent, #000 85%);
+    pointer-events: none;
+  }
+  .band > * { position: relative; max-width: 16ch; }
+  .band-sub { color: var(--color-ember); }
 </style>
